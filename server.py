@@ -15,6 +15,13 @@ def homepage():
 
     return render_template('homepage.html')
 
+@app.route('/signup')
+def signup():
+    """View signup."""
+
+    return render_template('signup.html')
+
+
 
 
 
