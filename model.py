@@ -10,10 +10,10 @@ class User(db.Model):
     __tablename__ = "users"
 
     email = db.Column(db.String(100), nullable = False, unique=True, primary_key = True)
-    user_id = db.Column(db.Integer, nullable = False, autoincrement = True)
-    user_name = db.Column(db.String(50), nullable = False, unique=True)
+    user_id = db.Column(db.Integer, autoincrement = True)
+    user_name = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50), nullable = False)
-    location = db.Column(db.String(50), nullable = False)
+    location = db.Column(db.String(50))
     image = db.Column(db.LargeBinary)
 
     dog = db.relationship("Dog", backref="users")
@@ -58,7 +58,7 @@ def connect_to_db(flask_app, db_uri="postgresql:///project", echo=True):
     db.init_app(flask_app)
 
     print("Connected to the db!")
-
+    return db
 
 if __name__ == "__main__":
     from server import app
