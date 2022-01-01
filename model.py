@@ -9,8 +9,8 @@ class User(db.Model):
 
     __tablename__ = "users"
 
-    email = db.Column(db.String(100), nullable = False, unique=True, primary_key = True)
-    user_id = db.Column(db.Integer, autoincrement = True)
+    user_id = db.Column(db.Integer, autoincrement = True, unique=True, primary_key = True)
+    email = db.Column(db.String(100), nullable = False, unique=True)
     user_name = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50), nullable = False)
     location = db.Column(db.String(50))

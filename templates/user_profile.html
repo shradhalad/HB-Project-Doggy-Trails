@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<form action="/POST_user_profile" class="profile_form" method="post" enctype = "multipart/form-data">
+    <h1>User info</h1>
+
+    <div>
+        <label>Image:
+          <input type="file" id="myFile" name="filename" required>
+        </label>
+      </div>
+
+    <div>
+      <label>Name:
+        <input type="text" class="form-control" placeholder= "Name" name="name" required>
+      </label>
+    </div>
+
+    <div>
+      <label>Location:
+        <input type="text" class="form-control" placeholder= "location" name="location" required>
+      </label>
+    </div>
+
+
+
+    <h1>Doggo's info</h1>
+
+    <div>
+    <label>Image:
+        <input type="file" id="myFile" name="filename" required>
+      </label>
+    </div>
+
+    <div>
+        <label>Name:
+          <input type="text" class="form-control" placeholder= "Name" name="name" required>
+        </label>
+      </div>
+    <div>
+        <label>Breed:
+          <input type="text" class="form-control" placeholder= "Breed" name="Breed" required>
+        </label>
+      </div>
+
+      <div>
+        <label>Gender:
+          <input type="text" class="form-control" placeholder= "Gender" name="Gender" required>
+        </label>
+      </div>
+
+      <div>
+        <label>Age:
+          <input type="number" class="form-control" placeholder= "age" name="age" required>
+        </label>
+      </div>
+
+
+    <div>
+      <input class="btn" type="submit" value="Submit">
+    </div>
+
+{% endblock %}
