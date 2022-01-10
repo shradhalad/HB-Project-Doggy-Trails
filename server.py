@@ -48,6 +48,7 @@ def complete_signup():
     flash(f"Welcome {email}")
     resp = make_response(render_template("user_profile.html"))
     resp.set_cookie('user_id', str(user.user_id).encode())
+    resp.set_cookie('user_email', str(user.email).encode())
 
     return resp
 
