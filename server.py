@@ -3,10 +3,16 @@ import os
 import ipdb
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, flash, redirect, jsonify, session
+from flask import make_response
+from flask_sqlalchemy_session import current_session
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Dog
+from base64 import b64encode
+import base64
+from io import BytesIO #Converts data from Database into bytes
+from app_settings import get_app
 
-app = Flask("__name__")
+app = get_app()
 
 app.secret_key = "thisisnotthesecretkey"
 
@@ -26,22 +32,25 @@ def signup_form():
 @app.route('/signup', methods = ['POST'])
 def complete_signup():
     """Process user's signup to app"""
-    #ipdb.set_trace()
     #Get form variables and add user to database.
+
     email = request.form["email"]
     password = request.form["password"]
 
     new_user = User(email=email, password=password)
-
 
     user = User.query.filter_by(email=email).first()
     
     if not user:
         db.session.add(new_user)
         db.session.commit()
+        user = new_user
     
     flash(f"Welcome {email}")
-    return render_template("user_profile.html")
+    resp = make_response(render_template("user_profile.html"))
+    resp.set_cookie('user_id', str(user.user_id).encode())
+
+    return resp
 
 
 @app.route('/login', methods = ['GET'])
@@ -66,7 +75,11 @@ def check_user(email, password):
     session["user_id"] = user.user_id
 
     flash("Logged in")
-    return redirect("/user-profile")
+    resp = redirect("/user-profile")
+    resp.set_cookie('user_id', user.user_id)
+
+    return resp
+
 
 
 @app.route('/login', methods = ['POST'])
@@ -76,20 +89,65 @@ def complete_login():
     #Get variables from form and log user in to app.
     email = request.form["email"]
     password = request.form["password"]
+    
+    return check_user(email, password)
 
-    check_user(email, password)
+    
+
+
+def render_picture(data):
+
+    render_pic = base64.b64encode(data).decode('ascii') 
+    return render_pic
 
 @app.route('/POST_user_profile', methods = ['POST'])
 def POST_user_profile():
-    ipdb.set_trace()
-    pass
+    
+    user_image = request.files["user_image"]
+    user_name = request.form["user_name"]
+    location = request.form["location"]
 
-@app.route('/uploader', methods = ['GET', 'POST'])
-def upload_file():
-   if request.method == 'POST':
-      f = request.files['file']
-      f.save(secure_filename(f.filename))
-      return 'file uploaded successfully'
+    dog_image = request.files["dog_image"]
+    dog_name = request.form["dog_name"]
+    breed = request.form["breed"]
+    gender = request.form["gender"]
+    age = request.form["age"]
+
+    # print(request.form.keys())
+    # print(request.files.keys())
+
+    update_user_id = request.cookies.get('user_id')
+    print(repr(update_user_id))
+    user = User.query.filter_by(user_id=int(update_user_id)).first()
+    if user is None:
+        redirect ('/signup')
+    user.user_image = user_image.read()
+    user.user_name = user_name
+    user.location = location
+
+
+    db.session.commit() 
+
+
+    newFile_dog = Dog(dog_image=dog_image.read(), dog_name=dog_name, breed=breed, gender=gender, age=age)
+    db.session.add(newFile_dog)
+    db.session.commit() 
+
+    return redirect ('/search')
+    
+
+
+@app.route('/search', methods = ['GET'])
+def search():
+
+    return render_template('search.html')
+
+# @app.route('/uploader', methods = ['GET', 'POST'])
+# def upload_file():
+#    if request.method == 'POST':
+#       f = request.files['file']
+#       f.save(secure_filename(f.filename))
+#       return 'file uploaded successfully'
 
 
 
