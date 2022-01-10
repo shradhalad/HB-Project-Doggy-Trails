@@ -13,7 +13,6 @@ from io import BytesIO #Converts data from Database into bytes
 from app_settings import get_app
 
 app = get_app()
-
 app.secret_key = "thisisnotthesecretkey"
 
 
@@ -105,7 +104,7 @@ def POST_user_profile():
     
     user_image = request.files["user_image"]
     user_name = request.form["user_name"]
-    location = request.form["location"]
+    zipcode = request.form["zipcode"]
 
     dog_image = request.files["dog_image"]
     dog_name = request.form["dog_name"]
@@ -123,7 +122,7 @@ def POST_user_profile():
         redirect ('/signup')
     user.user_image = user_image.read()
     user.user_name = user_name
-    user.location = location
+    user.zipcode = zipcode
 
 
     db.session.commit() 
@@ -142,15 +141,23 @@ def search():
 
     return render_template('search.html')
 
-# @app.route('/uploader', methods = ['GET', 'POST'])
-# def upload_file():
-#    if request.method == 'POST':
-#       f = request.files['file']
-#       f.save(secure_filename(f.filename))
-#       return 'file uploaded successfully'
 
+@app.route("/search_api",methods = ['GET'])
+def search_api():
+    args = request.args
+    zipcode = args.get("zipcode")
+    result = {}
+    filtered_user = User.query.filter_by(zipcode=zipcode)
+    result['users'] = []
+    for user in filtered_user:
+        result['users'].append({
+            'name': user.user_name,
+            'zipcode': user.zipcode,
+            'email': user.email,
+        })
 
-
+        
+    return result
 
 
 

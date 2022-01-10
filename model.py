@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from app_settings import get_app
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 
 DB_URI = "postgresql:///project"
@@ -16,7 +18,7 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable = False, unique=True)
     user_name = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50), nullable = False)
-    location = db.Column(db.String(50))
+    zipcode = db.Column(db.String(50))
     user_image = db.Column(db.LargeBinary)
     dog_id = db.Column(db.Integer, db.ForeignKey('dogs.dog_id'), autoincrement = True)
 
@@ -50,7 +52,20 @@ class Dog(db.Model):
 
         return f"<Class dog_id={self.dog_id} dog_name={self.dog_name}>"
 
-
+def add_fake_data():
+    engine = create_engine(DB_URI)
+    with Session(engine) as session:
+        for ii in range(10):
+            an_user = User(
+                email=f'user{ii}@gmail.com',
+                password=f'sexy{ii}',
+                user_name=f'user{ii}',
+                zipcode='94403',
+                
+            )
+            session.add(an_user)
+        session.commit()
+    pass
 
 
 def connect_to_db(flask_app, db_uri=DB_URI, echo=True):
