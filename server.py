@@ -1,5 +1,6 @@
 from pprint import pprint
 import os
+import cloudinary.uploader
 import ipdb
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, flash, redirect, jsonify, session
@@ -11,9 +12,14 @@ from base64 import b64encode
 import base64
 from io import BytesIO #Converts data from Database into bytes
 from app_settings import get_app
+from model import add_geocoding_data
 
 app = get_app()
 app.secret_key = "thisisnotthesecretkey"
+
+CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
+CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
+CLOUD_NAME = "hbproject"
 
 
 @app.route('/')
@@ -40,13 +46,15 @@ def complete_signup():
 
     user = User.query.filter_by(email=email).first()
     
+    
     if not user:
+        add_geocoding_data(new_user)
         db.session.add(new_user)
         db.session.commit()
         user = new_user
     
     flash(f"Welcome {email}")
-    resp = make_response(render_template("user_profile.html"))
+    resp = make_response(render_template("user_profile.html", user=user))
     resp.set_cookie('user_id', str(user.user_id).encode())
     resp.set_cookie('user_email', str(user.email).encode())
 
@@ -106,6 +114,7 @@ def POST_user_profile():
     user_image = request.files["user_image"]
     user_name = request.form["user_name"]
     zipcode = request.form["zipcode"]
+    address = request.form["address"]
 
     dog_image = request.files["dog_image"]
     dog_name = request.form["dog_name"]
@@ -122,10 +131,15 @@ def POST_user_profile():
     if user is None:
         redirect ('/signup')
     user.user_image = user_image.read()
+    user_image.stream.seek(0)
     user.user_name = user_name
     user.zipcode = zipcode
+    user.address = address
 
+    result = cloudinary.uploader.upload(user_image, api_key=CLOUDINARY_KEY, api_secret=CLOUDINARY_SECRET, cloud_name=CLOUD_NAME)
+    img_url = result['secure_url']
 
+    add_geocoding_data(user)
     db.session.commit() 
 
 
@@ -155,10 +169,21 @@ def search_api():
             'name': user.user_name,
             'zipcode': user.zipcode,
             'email': user.email,
+            'address': user.address,
+            'lat': user.latitude,
+            'lng': user.longitude,
         })
 
         
     return result
+
+@app.route('/logout')
+def logout():
+    """Log out."""
+    
+    del session["user_id"]
+    flash("Logged Out.")
+    return redirect("/")
 
 
 
