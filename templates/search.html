@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+<h1>Enter location information:</h1>
+<form method="GET" action="/search">
+  <label for="zip">Zipcode: <span class="loading"></span></label>
+  <input id="zip" name="zip" value="94403" /><br>
+</form>
+
+<div>
+  <input class="btn" id="search_submit" type="submit" value="Submit" onclick="callApi();">
+</div>
+
+<div id="map_canvas" style="width: 600px; height: 600px;"></div>
+<div>
+  <a href="/message_board">
+    <input type="button" value="Message Board" />
+  </a>
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block head %}
+
+<script>
+
+
+
+  var geocoder; //To use later
+  var map; //Your map
+  var allWindows = [];
+  function initMap() {
+
+    geocoder = new google.maps.Geocoder();
+    //Default setup
+    var latlng = new google.maps.LatLng(37.827, -122.291);
+    var myOptions = {
+      zoom: 15,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    map.setCenter(latlng);
+  }
+
+
+
+  function callApi() {
+    // Url for the request 
+    const zipcode = document.getElementById("zip").value;
+    var url = '/search_api?zipcode=' + zipcode;
+    const geoRequest = {
+      address: zipcode
+    };
+    console.trace(url);
+    // Making our request 
+    fetch(url, { method: 'GET' })
+      .then(Result => Result.json())
+      .then(data => {
+        allWindows = [];
+        for (const row of data.users) {
+          const address = row.address;
+          var latlng = new google.maps.LatLng(row.lat, row.lng);
+          map.setCenter(latlng);
+          var marker = new google.maps.Marker({
+            map: map,
+            position: { lat: row.lat, lng: row.lng }
+          });
+          addMarker(row, marker);
+        };
+      })
+      .catch(errorMsg => { console.log(errorMsg); });
+  };
+
+  function addMarker(row, marker) {
+    const markerInfo = `
+      <p>
+        ${row.name} @ ${row.address}, ${row.zipcode}
+
+      </p>
+    `;
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: markerInfo,
+      maxWidth: 200,
+    });
+    allWindows.push(infoWindow);
+
+    marker.addListener('click', () => {
+      for (const aWindow of allWindows) {
+        aWindow.close();
+      }
+      infoWindow.open(map, marker);
+    });
+  }
+
+</script>
+
+
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFB31etl8X7y0-VaeN4sA0xKUMnuS4ixg&callback=initMap">
+  </script>
+
+{% endblock %}

@@ -177,6 +177,13 @@ def search_api():
         
     return result
 
+@app.route('/message_board', methods = ['GET'])
+def message_board():
+    """Show message board to user."""
+    
+    return render_template("message_board.html")
+
+
 @app.route('/logout')
 def logout():
     """Log out."""
