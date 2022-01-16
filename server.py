@@ -17,9 +17,9 @@ from model import add_geocoding_data
 app = get_app()
 app.secret_key = "thisisnotthesecretkey"
 
-CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
-CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
-CLOUD_NAME = "hbproject"
+# CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
+# CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
+# CLOUD_NAME = "hbproject"
 
 
 @app.route('/')
@@ -83,7 +83,7 @@ def check_user(email, password):
     session["user_id"] = user.user_id
 
     flash("Logged in")
-    resp = redirect("/user-profile")
+    resp = redirect("/user_profile")
     resp.set_cookie('user_id', user.user_id)
 
     return resp
@@ -136,8 +136,8 @@ def POST_user_profile():
     user.zipcode = zipcode
     user.address = address
 
-    result = cloudinary.uploader.upload(user_image, api_key=CLOUDINARY_KEY, api_secret=CLOUDINARY_SECRET, cloud_name=CLOUD_NAME)
-    img_url = result['secure_url']
+    #result = cloudinary.uploader.upload(user_image, api_key=CLOUDINARY_KEY, api_secret=CLOUDINARY_SECRET, cloud_name=CLOUD_NAME)
+    #img_url = result['secure_url']
 
     add_geocoding_data(user)
     db.session.commit() 

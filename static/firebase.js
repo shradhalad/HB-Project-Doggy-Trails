@@ -71,4 +71,4 @@ const getCookie = (name) => {
   return "";
 }
 
-const username = getCookie('user_email');
+const username = getCookie('user_name');

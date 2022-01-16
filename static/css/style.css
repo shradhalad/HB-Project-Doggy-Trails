@@ -1,0 +1,9 @@
+
+.an-image{
+    min-height : 100%;
+    min-width : 100%;
+    background-repeat:no-repeat;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    color : white; /* for ths example */
+}

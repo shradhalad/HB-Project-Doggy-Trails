@@ -2,20 +2,14 @@
 {% block title %}Doggy Trails Home{% endblock %}
 
 {% block body %}
-
-{% block style %}
-<style>
-body {
-        background: url("static/images/homepage_image.jpg") no-repeat;
-        background-size: cover;        
-}
-</style>
-{% endblock %}
-
-  
   
   <ul>
     <li><a href="/signup">Sign up</a></li>
     <li><a href="/login">Login</a></li>
   </ul>
+
+  <div id='bg'>
+    <img src="static/images/homepage_image.jpg" class="an-image">
+</div>
+
 {% endblock %}
