@@ -1,69 +1,70 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<form action="/POST_user_profile" class="profile_form" method="post" enctype = "multipart/form-data">
-    <h1>User info</h1>
+<form action="/POST_user_profile" class="profile_form" method="post" enctype="multipart/form-data">
+  <h1>User info</h1>
 
-    <div>
-        <label>Image:
-          <input type="file" id="myFile1" name="user_image" required>
-        </label>
-      </div>
-
-    <div>
-      <label>Name:
-        <input type="text" class="form-control" placeholder= "Name" name="user_name" value="Kat" required>
-      </label>
-    </div>
-
-    <div>
-      <label>zipcode:
-        <input type="text" class="form-control" placeholder= "location" name="zipcode" value="94403" required>
-      </label>
-    </div>
-
-    <div>
-      <label>address:
-        <input type="text" class="form-control" placeholder= "address" name="address" value="3708 colegrove street" required>
-      </label>
-    </div>
-
-
-
-    <h1>Doggo's info</h1>
-
-    <div>
+  <div>
     <label>Image:
-        <input type="file" id="myFile2" name="dog_image" required>
-      </label>
-    </div>
+      <input type="file" id="myFile1" name="user_image" class="form-control form-control-lg file-input" required>
+    </label>
+  </div>
 
-    <div>
-        <label>Name:
-          <input type="text" class="form-control" placeholder= "Name" name="dog_name" value="honey" required>
-        </label>
-      </div>
-    <div>
-        <label>Breed:
-          <input type="text" class="form-control" placeholder= "Breed" name="breed" value="chihuahua" required>
-        </label>
-      </div>
+  <div>
+    <label>Name:
+      <input type="text" class="form-control" placeholder="Name" name="user_name" value="Kat" required>
+    </label>
+  </div>
 
-      <div>
-        <label>Gender:
-          <input type="text" class="form-control" placeholder= "Gender" name="gender" value="female" required>
-        </label>
-      </div>
+  <div>
+    <label>zipcode:
+      <input type="text" class="form-control" placeholder="location" name="zipcode" value="94403" required>
+    </label>
+  </div>
 
-      <div>
-        <label>Age:
-          <input type="number" class="form-control" placeholder= "age" name="age" value="2" required>
-        </label>
-      </div>
+  <div>
+    <label>address:
+      <input type="text" class="form-control" placeholder="address" name="address" value="3708 colegrove street"
+        required>
+    </label>
+  </div>
 
 
-    <div>
-      <input class="btn" type="submit" value="Submit">
-    </div>
 
-{% endblock %}
+  <h1>Doggo's info</h1>
+
+  <div>
+    <label for="myFile2" class="form-label">Image:
+      <input type="file" id="myFile2" name="dog_image" class="form-control form-control-lg" required>
+    </label>
+  </div>
+
+  <div>
+    <label>Name:
+      <input type="text" class="form-control" placeholder="Name" name="dog_name" value="honey" required>
+    </label>
+  </div>
+  <div>
+    <label>Breed:
+      <input type="text" class="form-control" placeholder="Breed" name="breed" value="chihuahua" required>
+    </label>
+  </div>
+
+  <div>
+    <label>Gender:
+      <input type="text" class="form-control" placeholder="Gender" name="gender" value="female" required>
+    </label>
+  </div>
+
+  <div>
+    <label>Age:
+      <input type="number" class="form-control" placeholder="age" name="age" value="2" required>
+    </label>
+  </div>
+
+
+  <div>
+    <input class="btn" type="submit" value="Submit">
+  </div>
+
+  {% endblock %}
