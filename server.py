@@ -45,6 +45,8 @@ def complete_signup():
     new_user = User(email=email, password=password)
 
     user = User.query.filter_by(email=email).first()
+
+
     
     
     if not user:
@@ -56,6 +58,7 @@ def complete_signup():
     flash(f"Welcome {email}")
     resp = make_response(render_template("user_profile.html", user=user))
     resp.set_cookie('user_id', str(user.user_id).encode())
+    resp.set_cookie('user_name', str(user.user_name).encode())
     resp.set_cookie('user_email', str(user.email).encode())
 
     return resp
@@ -139,13 +142,17 @@ def POST_user_profile():
     #result = cloudinary.uploader.upload(user_image, api_key=CLOUDINARY_KEY, api_secret=CLOUDINARY_SECRET, cloud_name=CLOUD_NAME)
     #img_url = result['secure_url']
 
+    newFile_dog = Dog(dog_image=dog_image.read(), dog_name=dog_name, breed=breed, gender=gender, age=age)
+    db.session.add(newFile_dog)
+    db.session.commit()
+    db.session.flush()
+    user.dog_id = newFile_dog.dog_id
+
     add_geocoding_data(user)
     db.session.commit() 
 
 
-    newFile_dog = Dog(dog_image=dog_image.read(), dog_name=dog_name, breed=breed, gender=gender, age=age)
-    db.session.add(newFile_dog)
-    db.session.commit() 
+    
 
     return redirect ('/search')
     

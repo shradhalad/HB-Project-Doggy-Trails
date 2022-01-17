@@ -29,8 +29,10 @@ const fetchChat = db.ref("messages/");
 
 fetchChat.on("child_added", function (snapshot) {
   const messages = snapshot.val();
-  const message = `<li class=${username === messages.username ? "sent" : "receive"
-    }><span>${messages.username}: </span>${messages.message}</li>`;
+  const timestamp = snapshot.key;
+  const dateTime = new Date(Number.parseInt(timestamp)).toString();
+  const message = `<li class=${getCookie('user_name') === messages.username ? "sent" : "receive"
+    }><span><p>${messages.username}: ${messages.message} <br/>@ ${dateTime} </p></span></li>`;
   // append the message on the page
   document.getElementById("messages").innerHTML += message;
 });
@@ -52,9 +54,13 @@ function sendMessage(e) {
     .scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
 
   // create db collection and send in the data
+    
+  var username = getCookie('user_name');
+    
   db.ref("messages/" + timestamp).set({
-    username,
-    message,
+    'username': username,
+    'message': message,
+    'timestamp': Date.now()
   });
 }
 
@@ -71,4 +77,3 @@ const getCookie = (name) => {
   return "";
 }
 
-const username = getCookie('user_name');
