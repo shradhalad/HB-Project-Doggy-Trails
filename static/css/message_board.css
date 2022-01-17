@@ -15,7 +15,6 @@ header {
 li {
     list-style-type: none;
     margin-bottom: 10px;
-    background-color: #6929ca;
     padding: 5px;
     border-radius: 10px;
     color: white;
@@ -53,7 +52,7 @@ button {
 }
 
 .sent {
-    text-align: justify;
+    text-align: right;
     background-color: #a79cb3;
     margin-left: 50%;
 }
@@ -61,4 +60,8 @@ button {
 .sent span {
     margin-left: 5px;
     color: #6929ca;
+}
+
+.receive {
+    background-color: #6929ca;
 }

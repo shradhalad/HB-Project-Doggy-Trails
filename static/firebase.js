@@ -30,7 +30,7 @@ const fetchChat = db.ref("messages/");
 fetchChat.on("child_added", function (snapshot) {
   const messages = snapshot.val();
   const timestamp = snapshot.key;
-  const dateTime = new Date(Number.parseInt(timestamp)).toString();
+  const dateTime = new Date(Number.parseInt(timestamp)).toLocaleString();
   const message = `<li class=${getCookie('user_name') === messages.username ? "sent" : "receive"
     }><span><p>${messages.username}: ${messages.message} <br/>@ ${dateTime} </p></span></li>`;
   // append the message on the page
