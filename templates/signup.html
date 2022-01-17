@@ -1,20 +1,42 @@
 {% extends 'base.html' %}
 {% block title %}Doggy Trails Signup{% endblock %}
-
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand" href="#">Doggy Trails</a>
+    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signup">Signup</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
 {% block body %}
   <h1 style="text-align: center;">Welcome to Doggy Trails!</h1>
 
   
   <form action="/signup" method="post" style="">
-    <div class="container form-group form-row">
-      <h1>Sign Up</h1>
-  
-      <label for="email" style=""><b>Email</b></label>
+    <div class="container form-group form-row" style="margin-top: 100px;">  
+
+      <label for="email" class="col-lg-4 offset-4 d-flex justify-content-center box"><b>Email</b></label>
       <input type="text" class="col-lg-4 offset-4 d-flex justify-content-center box" placeholder="Enter Email" name="email" value="honey@gmail.com" required>
   
-      <label for="psw" style=""><b>Password</b></label>
-      <input type="password" class="form-control" placeholder="Enter Password" name="password" value="12345" required>
-      <button type="submit" class="signupbtn">Sign Up</button>
+      <label for="psw" class="col-lg-4 offset-4 d-flex justify-content-center box" ><b>Password</b></label>
+      <input type="password" class="col-lg-4 offset-4 d-flex justify-content-center box" placeholder="Enter Password" name="password" value="12345" required>
+      <br>
+      <br>
+      <button type="submit" class="btn btn-primary col-lg-2 offset-5 d-flex justify-content-center box signupbtn">Sign Up</button>
     </div>
   </form>
 {% endblock %}

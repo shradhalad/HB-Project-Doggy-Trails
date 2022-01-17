@@ -1,70 +1,107 @@
 {% extends 'base.html' %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand" href="#">Doggy Trails</a>
+    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signup">Signup</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/message_board">Message Board</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
 {% block body %}
-
 <form action="/POST_user_profile" class="profile_form" method="post" enctype="multipart/form-data">
-  <h1>User info</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col">
 
-  <div>
-    <label>Image:
-      <input type="file" id="myFile1" name="user_image" class="form-control form-control-lg file-input" required>
-    </label>
+        <h3>User info</h3>
+
+        <div>
+          <label>Image:
+            <input type="file" id="myFile1" name="user_image" class="form-control file-input" required>
+          </label>
+        </div>
+
+        <div>
+          <label>Name:
+            <input type="text" class="form-control" placeholder="Name" name="user_name" value="Kat" required>
+          </label>
+        </div>
+
+        <div>
+          <label>Zipcode:
+            <input type="text" class="form-control" placeholder="location" name="zipcode" value="94403" required>
+          </label>
+        </div>
+
+        <div>
+          <label>Address:
+            <input type="text" class="form-control" placeholder="address" name="address" value="3708 colegrove street"
+              required>
+          </label>
+        </div>
+
+      </div>
+      <div class="col">
+
+        <h3>Doggo's info</h3>
+
+        <div>
+          <label for="myFile2" class="form-label">Image:
+            <input type="file" id="myFile2" name="dog_image" class="form-control" required>
+          </label>
+        </div>
+
+        <div>
+          <label for="nameInput">Name:
+            <input id="nameInput" type="text" class="form-control" placeholder="Name" name="dog_name" value="honey" required>
+          </label>
+        </div>
+        <div>
+          <label>Breed:
+            <input type="text" class="form-control" placeholder="Breed" name="breed" value="chihuahua" required>
+          </label>
+        </div>
+
+        <div>
+          <label>Gender:
+            <input type="text" class="form-control" placeholder="Gender" name="gender" value="female" required>
+          </label>
+        </div>
+
+        <div>
+          <label>Age:
+            <input type="number" class="form-control" placeholder="age" name="age" value="2" required>
+          </label>
+        </div>
+
+      </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+      <div class="offset-5 col-1">
+      <input class="btn btn-primary" type="submit" value="Submit">
+      </div>
+    </div>
   </div>
-
-  <div>
-    <label>Name:
-      <input type="text" class="form-control" placeholder="Name" name="user_name" value="Kat" required>
-    </label>
-  </div>
-
-  <div>
-    <label>zipcode:
-      <input type="text" class="form-control" placeholder="location" name="zipcode" value="94403" required>
-    </label>
-  </div>
-
-  <div>
-    <label>address:
-      <input type="text" class="form-control" placeholder="address" name="address" value="3708 colegrove street"
-        required>
-    </label>
-  </div>
-
-
-
-  <h1>Doggo's info</h1>
-
-  <div>
-    <label for="myFile2" class="form-label">Image:
-      <input type="file" id="myFile2" name="dog_image" class="form-control form-control-lg" required>
-    </label>
-  </div>
-
-  <div>
-    <label>Name:
-      <input type="text" class="form-control" placeholder="Name" name="dog_name" value="honey" required>
-    </label>
-  </div>
-  <div>
-    <label>Breed:
-      <input type="text" class="form-control" placeholder="Breed" name="breed" value="chihuahua" required>
-    </label>
-  </div>
-
-  <div>
-    <label>Gender:
-      <input type="text" class="form-control" placeholder="Gender" name="gender" value="female" required>
-    </label>
-  </div>
-
-  <div>
-    <label>Age:
-      <input type="number" class="form-control" placeholder="age" name="age" value="2" required>
-    </label>
-  </div>
-
-
-  <div>
-    <input class="btn" type="submit" value="Submit">
-  </div>
-
-  {% endblock %}
+</form>
+{% endblock %}

@@ -55,7 +55,6 @@ def complete_signup():
         db.session.commit()
         user = new_user
     
-    flash(f"Welcome {email}")
     resp = make_response(render_template("user_profile.html", user=user))
     resp.set_cookie('user_id', str(user.user_id).encode())
     resp.set_cookie('user_name', str(user.user_name).encode())
