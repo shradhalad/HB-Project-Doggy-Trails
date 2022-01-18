@@ -44,15 +44,12 @@ def complete_signup():
 
     new_user = User(email=email, password=password)
 
-    user = User.query.filter_by(email=email).first()
-
-
-    
-    
+    user = User.query.filter_by(email=email).first()    
     if not user:
         add_geocoding_data(new_user)
         db.session.add(new_user)
         db.session.commit()
+        db.session.flush()
         user = new_user
     
     resp = make_response(render_template("user_profile.html", user=user))
@@ -85,7 +82,8 @@ def check_user(email, password):
     session["user_id"] = user.user_id
 
     flash("Logged in")
-    resp = redirect("/user_profile")
+    resp = make_response(redirect("/user_profile"))
+    assert user.user_id is not None
     resp.set_cookie('user_id', user.user_id)
 
     return resp
@@ -112,7 +110,6 @@ def render_picture(data):
 
 @app.route('/POST_user_profile', methods = ['POST'])
 def POST_user_profile():
-    
     user_image = request.files["user_image"]
     user_name = request.form["user_name"]
     zipcode = request.form["zipcode"]
@@ -128,11 +125,14 @@ def POST_user_profile():
     # print(request.files.keys())
 
     update_user_id = request.cookies.get('user_id')
+    image_bytes = user_image.read()
     print(repr(update_user_id))
-    user = User.query.filter_by(user_id=int(update_user_id)).first()
+    if update_user_id is not None:
+        user = User.query.filter_by(user_id=int(update_user_id)).first()
+
     if user is None:
-        redirect ('/signup')
-    user.user_image = user_image.read()
+        return make_response(redirect('/signup'))
+    user.user_image = image_bytes
     user_image.stream.seek(0)
     user.user_name = user_name
     user.zipcode = zipcode
@@ -149,12 +149,10 @@ def POST_user_profile():
 
     add_geocoding_data(user)
     db.session.commit() 
+    response = make_response(redirect ('/search'))
+    response.set_cookie('user_name', user.user_name)
 
-
-    
-
-    return redirect ('/search')
-    
+    return response
 
 
 @app.route('/search', methods = ['GET'])
