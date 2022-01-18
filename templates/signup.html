@@ -7,36 +7,49 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="#">Doggy Trails</a>
+    <a class="navbar-brand" href="#" style="margin-left: 30px;">Doggy Trails</a>
     <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/" style="margin-right: 30px;">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
+        <a class="nav-link" href="/login" style="margin-right: 30px;">Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/signup">Signup</a>
+        <a class="nav-link" href="/signup" style="margin-right: 30px;">Signup</a>
       </li>
     </ul>
   </div>
 </nav>
 {% endblock %}
 {% block body %}
+<div id='bg' style="background-image: url('static/images/crop1.jpg'); background-size: cover; height: 100vh;"
+  class="background-image">
+  <!-- <img src="static/images/crop1.jpg" class="dog1"> -->
   <h1 style="text-align: center;">Welcome to Doggy Trails!</h1>
 
-  
-  <form action="/signup" method="post" style="">
-    <div class="container form-group form-row" style="margin-top: 100px;">  
+  <div class="container" style="background-color: transparent;">
+    <div class="row justify-content-center">
+      <div class="col-lg-4 opacity-0"></div>
+      <div class="col">
+        <form action="/signup" method="post">
+          <label for="email" class="col-lg-4"><b>Email</b></label>
+          <input type="text" class="col-lg-4" placeholder="Enter Email"
+            name="email" value="honey@gmail.com" required>
 
-      <label for="email" class="col-lg-4 offset-4 d-flex justify-content-center box"><b>Email</b></label>
-      <input type="text" class="col-lg-4 offset-4 d-flex justify-content-center box" placeholder="Enter Email" name="email" value="honey@gmail.com" required>
-  
-      <label for="psw" class="col-lg-4 offset-4 d-flex justify-content-center box" ><b>Password</b></label>
-      <input type="password" class="col-lg-4 offset-4 d-flex justify-content-center box" placeholder="Enter Password" name="password" value="12345" required>
-      <br>
-      <br>
-      <button type="submit" class="btn btn-primary col-lg-2 offset-5 d-flex justify-content-center box signupbtn">Sign Up</button>
+          <label for="psw" class="col-lg-4"><b>Password</b></label>
+          <input type="password" class="col-lg-4"
+            placeholder="Enter Password" name="password" value="12345" required>
+          <br>
+          <br>
+          <button type="submit"
+            class="btn btn-primary col-lg-2 offset-5 signupbtn">Sign
+            Up</button>
+          <!-- </div> -->
+        </form>
+      </div>
     </div>
-  </form>
+  </div>
+</div>
+
 {% endblock %}
